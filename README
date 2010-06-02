@@ -1,0 +1,32 @@
+This is a mirror of http://www.vim.org/scripts/script.php?script_id=3107
+
+Redirect backups made by the writebackup plugin (vimscript #1828) that would
+normally go into the original file's directory into an adjacent directory with a
+"{dir}.backup" name, if it exists. This allows to use the plugin in places where
+backup files would cause problems. 
+
+DESCRIPTION
+Many customization directories (e.g. /etc/profile.d/) consider all contained
+files, regardless of file extension or execute permissions. Creating a
+{file}.YYYYMMDD[a-z] backup in there causes trouble and strange effects,
+because the backups are used in addition to the main configuration file - not
+what was intended! However, putting the backups in the same directory
+generally is a good idea - just not for these special directories. 
+
+This script offers a solution by integrating into the writebackup.vim script
+so that it checks for a directory with a '.backup' extension (e.g.
+/etc/profile.d.backup/), and places the backups in there, in case it exists.
+In all other cases, the backup is made in the same directory, as before. 
+
+USAGE
+Adjacent backup directories are never created by this script; you have to
+create such a directory yourself to indicate that backups should be placed in
+there. 
+
+:WriteBackupMakeAdjacentDir [{prot}]
+		Create a backup directory adjacent to the current file's
+		directory. If {prot} is given it is used to set the protection
+		bits; default is 0755. 
+
+After the adjacent backup directory has been created, just use :WriteBackup
+as before. 
