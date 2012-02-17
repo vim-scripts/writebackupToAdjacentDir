@@ -9,9 +9,9 @@ would cause problems.
 
 						*writebackupToAdjacentDir.vim*
 description			|writebackupToAdjacentDir-description|
-usage	    			|writebackupToAdjacentDir-usage|
-installation   			|writebackupToAdjacentDir-installation|
-configuration  			|writebackupToAdjacentDir-configuration|
+usage				|writebackupToAdjacentDir-usage|
+installation			|writebackupToAdjacentDir-installation|
+configuration			|writebackupToAdjacentDir-configuration|
 limitations			|writebackupToAdjacentDir-limitations|
 known problems			|writebackupToAdjacentDir-known-problems|
 todo				|writebackupToAdjacentDir-todo|
@@ -27,15 +27,15 @@ because the backups are used in addition to the main configuration file - not
 what was intended! However, putting the backups in the same directory
 generally is a good idea - just not for these special directories. 
 
-This script offers a solution by integrating into the |writebackup.vim| script
+This plugin offers a solution by integrating into the |writebackup.vim| plugin
 so that it checks for a directory with a '.backup' extension (e.g.
 /etc/profile.d.backup/), and places the backups in there, in case it exists.
-In all other cases, the backup is made in the same directory, as before. 
+In all other cases, the backup is made in the default directory, as before. 
 
 ==============================================================================
 USAGE					      *writebackupToAdjacentDir-usage*
 
-Adjacent backup directories are never created by this script; you have to
+Adjacent backup directories are never created by this plugin; you have to
 create such a directory yourself to indicate that backups should be placed in
 there. 
 						 *:WriteBackupMakeAdjacentDir*
@@ -50,18 +50,19 @@ as before.
 ==============================================================================
 INSTALLATION			       *writebackupToAdjacentDir-installation*
 
-This script is packaged as a|vimball|. If you have the "gunzip" decompressor
+This script is packaged as a |vimball|. If you have the "gunzip" decompressor
 in your PATH, simply edit the *.vba.gz package in Vim; otherwise, decompress
 the archive first, e.g. using WinZip. Inside Vim, install by sourcing the
-vimball or via the|:UseVimball|command. >
+vimball or via the |:UseVimball| command. >
     vim writebackupToAdjacentDir.vba.gz
     :so %
-To uninstall, use the|:RmVimball|command. 
+To uninstall, use the |:RmVimball| command. 
 
 DEPENDENCIES			       *writebackupToAdjacentDir-dependencies*
 
 - Requires Vim 7.0 or higher. 
--|writebackup.vim| plugin (vimscript #1828). 
+- Requires the |writebackup.vim| plugin (vimscript #1828), version 1.30 or
+  higher. 
 - The |writebackupVersionControl.vim| plugin (vimscript #1829), which
   complements |writebackup.vim|, fully supports this extension, but is not
   required. 
@@ -77,6 +78,14 @@ template via >
     let g:WriteBackupAdjacentDir_BackupDirTemplate = '%s.backup'
 This must contain the "%s" placeholder, which is replaced with the original
 file's directory, e.g. "backup of %s". 
+					  *g:WriteBackupAdjacentDir_BackupDir*
+This plugin injects itself into |writebackup.vim| via the
+|g:WriteBackup_BackupDir| configuration. Its previous value is saved in
+|g:WriteBackupAdjacentDir_BackupDir| and used as a fallback, when no adjacent
+directory exists. If you need to change the fallback after sourcing the
+plugins, use the latter variable. However, to override this for a particular
+buffer, you still have to use the |b:WriteBackup_BackupDir| variable, as this
+plugin does not provide yet another override. 
 
 ==============================================================================
 LIMITATIONS				*writebackupToAdjacentDir-limitations*
@@ -85,10 +94,18 @@ KNOWN PROBLEMS			     *writebackupToAdjacentDir-known-problems*
 
 TODO					       *writebackupToAdjacentDir-todo*
 
+- Support adjacent backup directories higher up in the directory hierarchy,
+  using finddir() to locate them. 
+
 IDEAS					      *writebackupToAdjacentDir-ideas*
 
 ==============================================================================
 HISTORY					    *writebackupToAdjacentDir-history*
+
+1.10	17-Feb-2012
+ENH: Save configured g:WriteBackup_BackupDir and use that as a fallback
+instead of always defaulting to '.', thereby allowing absolute and dynamic
+backup directories as a fallback. Suggested by Geoffrey Nimal. 
 
 1.00	02-Jun-2010
 First published version. 
@@ -97,7 +114,7 @@ First published version.
 Started development. 
 
 ==============================================================================
-Copyright: (C) 2010 by Ingo Karkat
+Copyright: (C) 2010-2012 Ingo Karkat
 The VIM LICENSE applies to this script; see|copyright|. 
 
 Maintainer:	Ingo Karkat <ingo@karkat.de>

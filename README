@@ -13,13 +13,13 @@ because the backups are used in addition to the main configuration file - not
 what was intended! However, putting the backups in the same directory
 generally is a good idea - just not for these special directories. 
 
-This script offers a solution by integrating into the writebackup.vim script
+This plugin offers a solution by integrating into the writebackup.vim plugin
 so that it checks for a directory with a '.backup' extension (e.g.
 /etc/profile.d.backup/), and places the backups in there, in case it exists.
-In all other cases, the backup is made in the same directory, as before. 
+In all other cases, the backup is made in the default directory, as before. 
 
 USAGE
-Adjacent backup directories are never created by this script; you have to
+Adjacent backup directories are never created by this plugin; you have to
 create such a directory yourself to indicate that backups should be placed in
 there. 
 
