@@ -13,6 +13,7 @@
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS
+"   2.01.007	03-Nov-2013	Compatibility: Fix Funcref errors for Vim 7.0/1.
 "   2.00.006	02-Aug-2013	Move :WriteBackupMakeAdjacentDir implementation
 "				into a different autoload script.
 "   2.00.005	01-Aug-2013	Split off autoload script.
@@ -55,6 +56,7 @@ if ! exists('g:WriteBackupAdjacentDir_BackupDir')
     let g:WriteBackupAdjacentDir_BackupDir = g:WriteBackup_BackupDir
 endif
 unlet g:WriteBackup_BackupDir
+if v:version < 702 | runtime autoload/writebackupToAdjacentDir.vim | endif  " The Funcref doesn't trigger the autoload in older Vim versions.
 let g:WriteBackup_BackupDir = function('writebackupToAdjacentDir#AdjacentBackupDir')
 
 "- commands -------------------------------------------------------------------
